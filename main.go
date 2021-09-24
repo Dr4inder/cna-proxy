@@ -20,7 +20,7 @@ import (
 // environment contains defautl config from environment
 type environment struct {
 	// serve address (host:port)
-	ServeAddr string `envconfig:"SERVE_ADDR" default:":9998"`
+	ServeAddr string `envconfig:"SERVE_ADDR" default:":80"`
 	// redirect html path on disc
 	RedirectHTML string `envconfig:"REDIRECT_HTML" default:""`
 	// cache timeout to store client data
@@ -44,7 +44,7 @@ var defaultRedirectHTML = []byte(`
         setTimeout(function(){ anchor.click(); }, 500);
         // document.body.appendChild(elemDiv); // appends last of that element
     }
-    addElement("http://gowifi.ru");
+    addElement("https://lass-es.de");
 </script>
 </body>
 </HTML>
@@ -76,7 +76,7 @@ func main() {
 	e.Use(middleware.Logger())
 
 	// set handler for Apple CNA common internet detection URI
-	e.GET("/hotspot-*.*",
+	e.GET("*",
 		func(c echo.Context) error {
 			var clientID, _, _ = net.SplitHostPort(c.Request().RemoteAddr)
 			if _, found := ch.Get(clientID); found {
