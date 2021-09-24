@@ -2,6 +2,7 @@ FROM golang:alpine as builder
 WORKDIR /go/src/github.com/danyanya/cna-proxy
 RUN apk add git
 COPY *.go ./
+RUN go env -w GO111MODULE=auto
 RUN go get -v ./...
 RUN CGO_ENABLED=0 GOOS=linux go build .
 
